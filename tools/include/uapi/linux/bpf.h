@@ -805,6 +805,12 @@ enum bpf_adj_room_mode {
 	BPF_ADJ_ROOM_NET,
 };
 
+#define __bpf_md_ptr(type, name)	\
+union {					\
+	type name;			\
+	__u64 :64;			\
+} __attribute__((aligned(8)))
+
 /* user accessible mirror of in-kernel sk_buff.
  * new fields can only be added to the end of this structure
  */
