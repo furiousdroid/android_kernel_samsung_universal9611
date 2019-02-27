@@ -136,6 +136,7 @@ enum bpf_prog_type {
 	BPF_PROG_TYPE_SK_SKB,
 	BPF_PROG_TYPE_CGROUP_SOCK_ADDR = 18,
 	BPF_PROG_TYPE_CGROUP_DEVICE,
+	BPF_PROG_TYPE_CGROUP_SYSCTL,
 	BPF_PROG_TYPE_SK_MSG,
 	BPF_PROG_TYPE_RAW_TRACEPOINT,
 };
@@ -159,6 +160,7 @@ enum bpf_attach_type {
 	BPF_CGROUP_UDP6_RECVMSG = 20,
 	BPF_CGROUP_DEVICE,
 	BPF_SK_MSG_VERDICT,
+	BPF_CGROUP_SYSCTL,
 	__MAX_BPF_ATTACH_TYPE
 };
 
@@ -1140,4 +1142,9 @@ struct bpf_raw_tracepoint_args {
 	__u64 args[0];
 };
 
+struct bpf_sysctl {
+	__u32	write;		/* Sysctl is being read (= 0) or written (= 1).
+				 * Allows 1,2,4-byte read, but no write.
+				 */
+};
 #endif /* _UAPI__LINUX_BPF_H__ */
