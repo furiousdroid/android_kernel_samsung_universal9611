@@ -581,6 +581,8 @@ extern const struct bpf_func_proto bpf_skb_vlan_push_proto;
 extern const struct bpf_func_proto bpf_skb_vlan_pop_proto;
 extern const struct bpf_func_proto bpf_get_stackid_proto;
 extern const struct bpf_func_proto bpf_sock_map_update_proto;
+extern const struct bpf_func_proto bpf_strtol_proto;
+extern const struct bpf_func_proto bpf_strtoul_proto;
 
 /* Shared helpers among cBPF and eBPF. */
 void bpf_user_rnd_init_once(void);
