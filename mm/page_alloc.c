@@ -2412,6 +2412,18 @@ static int rmqueue_bulk(struct zone *zone, unsigned int order,
 		if (unlikely(page == NULL))
 			break;
 
+		/* Reschedule and ease the contention on the lock if needed */
+		if (i + 1 < count && ((can_resched && need_resched()) ||
+				      spin_needbreak(&zone->lock))) {
+			__mod_zone_page_state(zone, NR_FREE_PAGES,
+					      -((i + 1 - last_mod) << order));
+			last_mod = i + 1;
+			spin_unlock(&zone->lock);
+			if (can_resched)
+				cond_resched();
+			spin_lock(&zone->lock);
+		}
+
 		if (unlikely(check_pcp_refill(page)))
 			continue;
 
