@@ -806,12 +806,6 @@ static inline void mem_cgroup_cancel_charge(struct page *page,
 {
 }
 
-static inline int mem_cgroup_charge(struct page *page, struct mm_struct *mm,
-				    gfp_t gfp_mask)
-{
-	return 0;
-}
-
 static inline void mem_cgroup_uncharge(struct page *page)
 {
 }
