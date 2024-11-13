@@ -61,6 +61,7 @@ def main():
     parser.add_argument('--target', type=str, required=True, help="Target device (a51/m21/...)")
     parser.add_argument('--allow-dirty', action='store_true', help="Allow dirty build")
     parser.add_argument('--oneui', action='store_true', help="OneUI build")
+    parser.add_argument('--ksu', action='store_true', help="Enable KernelSU")
     args = parser.parse_args()
     
     valid_targets = ['a51', 'f41', 'm31s', 'm31', 'm21', 'gta4xl', 'gta4xlwifi']
@@ -86,13 +87,14 @@ def main():
     ClangCompiler.verify_executable()
     
     build_type = "OneUI" if args.oneui else "AOSP"
+    ksu_enabled = "True" if args.ksu else "False"
     display_info({
         'Kernel Name': 'Something New',
         'Kernel Version': kernel_version,
         'Build Type': build_type,
         'Device': args.target,
-        'TARGET_USES_LLVM': True,
-        'TOOLCHAIN_VERSION': ClangCompiler.get_version(),
+        'Include KernelSU': ksu_enabled,
+        'Toolchain Version': ClangCompiler.get_version(),
     })
     
     toolchain_path = os.path.join(os.getcwd(), 'toolchain', 'bin')
@@ -110,6 +112,9 @@ def main():
     if args.oneui:
         make_defconfig += ['oneui.config']
     
+    if args.ksu:
+        make_defconfig += ['ksu.config']
+    
     start_time = datetime.now()
     print('Running make defconfig...')
     run_command(make_defconfig)
@@ -122,8 +127,8 @@ def main():
         kernel_version_info = extract_match(r'"([^"]+)"', f.read())
     
     shutil.copyfile('out/arch/arm64/boot/Image', 'AnyKernel3/Image')
-    zip_filename = 'SN_{}_{}_{}_{}.zip'.format(
-        kernel_version, args.target, 'OneUI' if args.oneui else 'AOSP', datetime.today().strftime('%Y-%m-%d'))
+    zip_filename = 'SN_{}_{}_{}_{}{}.zip'.format(
+        kernel_version, args.target, 'OneUI' if args.oneui else 'AOSP', datetime.today().strftime('%Y-%m-%d'), '-KSU' if args.ksu else '')
     os.chdir('AnyKernel3/')
     create_zip(zip_filename, [
         'Image', 
