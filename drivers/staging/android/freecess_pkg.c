@@ -21,7 +21,7 @@
 
 #define MAX_REC_UID 64
 static atomic_t uid_rec[MAX_REC_UID];
-extern void binders_in_transcation(int uid);
+//extern void binders_in_transcation(int uid);
 
 int pkg_stat_show(struct seq_file *m, void *v)
 {
@@ -129,7 +129,7 @@ static void kfreecess_cfb_hook(void* data, unsigned int len)
 	int uid = payload->target_uid;
 
 	printk(KERN_INFO "cfb_target: uid = %d\n", uid);
-	binders_in_transcation(uid);
+	//binders_in_transcation(uid);
 }
 
 static uid_t __sock_i_uid(struct sock *sk)
