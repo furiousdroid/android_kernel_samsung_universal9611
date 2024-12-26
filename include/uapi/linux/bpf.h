@@ -956,12 +956,7 @@ union bpf_attr {
 	FN(get_netns_cookie),		\
 	FN(get_current_ancestor_cgroup_id),	\
 	FN(sk_assign),			\
-	FN(ktime_get_boot_ns),		\
-	FN(sysctl_get_name),		\
-	FN(sysctl_get_current_value),		\
-	FN(sysctl_set_new_value),	\
-	FN(strtol),			\
-	FN(strtoul),
+	FN(ktime_get_boot_ns),
 
 /* integer value in 'imm' field of BPF_CALL instruction selects which helper
  * function eBPF program intends to call
