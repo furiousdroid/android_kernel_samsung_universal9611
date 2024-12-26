@@ -1227,7 +1227,9 @@ static int bpf_prog_load(union bpf_attr *attr)
 	int err;
 	char license[128];
 	bool is_gpl;
+#ifdef CONFIG_ANDROID_SPOOF_KERNEL_VERSION_FOR_BPF
 	bool disabled = false;
+#endif
 
 	if (CHECK_ATTR(BPF_PROG_LOAD))
 		return -EINVAL;
